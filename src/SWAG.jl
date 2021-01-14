@@ -2,7 +2,7 @@ module SWAG
 
 using Flux
 
-export swag
+export swag, swa, cyclic_LR
 
 
 """
@@ -45,11 +45,17 @@ function swag(model, data, L, opt;T = 10, c=1, K=3)
 end
 """
 	swa(model, data, L;T = 10, c=1, K=3, α_1 = 1.0, α_2 = 0.0)
-# Inputs:
-	i 	: Epoch
-	c 	: Moment update frequency
-	α_1	: Maximum learning rate
-	α_2	: Minimum Learning rate
+# Inputs
+		model 	: Flux model 
+		data 	: Dataset
+		L    	: Loss function
+		opt 	: Optimizer
+# Keyword Arguments
+		T		: Number of steps
+		c 		: Moment update frequency
+		K 		: maximum number of columns in deviation matrix
+
+
 """
 function swa(model, data, L;T = 10, c=1, K=3, α_1 = 1.0, α_2 = 0.0)
 	training_loss = 0.0
@@ -77,15 +83,12 @@ end
 """
 	cyclic_LR(i, c; α_1 = 0.99, α_2 = 0.0001)
 To generate cyclic learning rate
-# Inputs
-		model 	: Flux model 
-		data 	: Dataset
-		L    	: Loss function
-		opt 	: Optimizer
-# Keyword Arguments
-		T		: Number of steps
-		c 		: Moment update frequency
-		K 		: maximum number of columns in deviation matrix
+
+# Inputs:
+	i 	: Epoch
+	c 	: Moment update frequency
+	α_1	: Maximum learning rate
+	α_2	: Minimum Learning rate
 
 """
 function cyclic_LR(i, c; α_1 = 0.99, α_2 = 0.0001)
